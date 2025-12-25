@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+.env
+
+# Ruff
+.ruff_cache/
+
+# Pytest
+.pytest_cache/
+.coverage
+htmlcov/
+
+# MLOps Data
+data/*
+mlruns/
+.dvc_cache/
+
+# IDE
+.idea/
+.vscode/
+! .vscode/settings.json
+! .vscode/extensions.json

@@ -1,0 +1,42 @@
+name: MLOps CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  quality-check:
+    runs-on: ubuntu-latest
+    container:
+      # 使用你的 Workspace 镜像或标准 Python 镜像
+      # 建议使用轻量级镜像加速 CI
+      image: python:3.11-slim
+    
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          # 安装项目及开发依赖 (包含 ruff)
+          pip install ".[dev]"
+
+      - name: Lint with Ruff
+        run: |
+          echo "Running Ruff Linter..."
+          # 仅检查不修改，如果发现严重错误则 CI 失败
+          ruff check .
+
+      - name: Check Format with Ruff
+        run: |
+          echo "Checking Code Formatting..."
+          # 检查是否符合格式规范 (相当于 black --check)
+          ruff format --check .
+
+      - name: Run Tests
+        run: |
+          echo "Running Unit Tests..."
+          pytest

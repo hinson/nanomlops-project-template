@@ -1,0 +1,13 @@
+[core]
+    # 默认远程存储名称
+    remote = minio_dvc
+
+['remote "minio_dvc"']
+    # 存储桶地址 (对应 MinIO 中的 bucket)
+    url = s3://dvc/mlops-project-template
+    
+    # MinIO API 端点 (容器内部访问地址)
+    endpointurl = http://minio:9000
+    
+    # 强制使用路径风格 (MinIO 必需)
+    use_ssl = false

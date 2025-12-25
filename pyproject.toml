@@ -1,0 +1,59 @@
+[project]
+name = "mlops-project-template"
+version = "0.1.0"
+description = "Standard MLOps project template with DVC, Feast, MLflow and Ruff."
+# [修改] 适配 Ubuntu 24.04 的默认 Python 版本
+requires-python = ">=3.12"
+readme = "README.md"
+dependencies = [
+    "mlflow>=2.10.0",
+    "prefect>=2.16.0",
+    "dvc[s3]>=3.0.0",        # DVC S3 支持
+    "feast[redis,postgres]", # Feast 数据库支持
+    "pandas",
+    "scikit-learn",
+    "pydantic",
+    "boto3",
+    "pyyaml",
+]
+
+[project.optional-dependencies]
+dev = ["ruff", "pytest", "pytest-cov", "jupyterlab"]
+
+# ==========================================
+# Ruff 配置 (严苛模式)
+# ==========================================
+[tool.ruff]
+line-length = 100
+# [修改] 设置目标版本为 Python 3.12，启用新版语法特性检查
+target-version = "py312"
+exclude = [
+    ".git",
+    ".venv",
+    "feature_repo/data", # 忽略 Feast 自动生成的数据
+    "migrations",
+]
+
+[tool.ruff.lint]
+# E/F: 基础错误, I: 导入排序, B: 常见Bug, N: 命名规范, SIM: 代码简化
+select = ["E", "F", "I", "B", "UP", "N", "SIM"]
+ignore = []
+
+[tool.ruff.lint.isort]
+known-first-party = ["src", "feature_repo"]
+section-order = [
+    "future",
+    "standard-library",
+    "third-party",
+    "first-party",
+    "local-folder",
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.pytest.ini_options]
+addopts = "-ra -q --cov=src"
+testpaths = ["tests"]
+pythonpath = ["."]

@@ -1,0 +1,27 @@
+# Feast 特征存储配置
+# 适配 NanoMLOps 平台的 Docker 网络环境
+
+project: mlops_project_v1
+
+# 注册表：存储特征定义的元数据
+registry: data/registry.db
+
+# 提供者：本地环境（容器内开发）
+provider: local
+
+# 在线存储：Redis (用于低延迟推理服务)
+online_store:
+    type: redis
+    # 对应 docker-compose 中的服务名 "redis"
+    connection_string: "redis:6379"
+
+# 离线存储：PostgreSQL (用于历史数据读取和训练集构建)
+offline_store:
+    type: postgres
+    # 对应 docker-compose 中的服务名 "db"
+    host: db
+    port: 5432
+    database: postgres
+    # 对应 .env 中的 POSTGRES_USER 和 POSTGRES_PASSWORD
+    user: admin
+    password: secure_pg_password
